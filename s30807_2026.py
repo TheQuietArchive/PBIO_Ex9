@@ -1,7 +1,10 @@
+# s30807, 11.05.2026, Generator pseudo-losowych sekwencji nukleotydowych z zapisem w formacie FASTA oraz dodatkowa nicia komplementarna i odwrotna komplementarna oraz transkrypcja do mRNA
+
 import random
 
 def generate_sequence(length: int, distribution: dict) -> str:
-    """Zwraca losową sekwencję DNA o zadanej długości."""
+    """Zwraca losową sekwencję DNA o zadanej długości.
+    Dodatkowo uzywa procentowego rozkladu podanego przez uzytkownika"""
 
     nucleotides = ["A", "C", "G", "T"]
 
@@ -84,6 +87,8 @@ def validate_positive_int(prompt: str,
         return val
 
 def validate_id(prompt: str) -> str:
+    """Pobiera od użytkownika liczbę całkowitą która ma posłużyć jako id.
+        W przypadku błędu powtarza pytanie."""
     while True:
         seq_id = input(prompt)
 
@@ -102,6 +107,9 @@ a więc program generuje i wyświetla nić komplementarną oraz nić odwrotnie k
 Obie dopisuje jako dodatkowe rekordy do pliku FASTA z odpowiednimi oznaczeniem w ID.
 '''
 def complementary_sequence(sequence: str) -> str:
+    """
+    Zwraca sekwencje komplementarna na podstawie przeslanej sekwencji
+    """
     complement = {
         "A": "T",
         "T": "A",
@@ -117,6 +125,9 @@ def complementary_sequence(sequence: str) -> str:
     return result
 
 def reverse_complement(sequence: str) -> str:
+    """
+        Zwraca odwrocona sekwencje komplementarna na podstawie przeslanej sekwencji
+    """
     return complementary_sequence(sequence)[::-1]
 
 '''
@@ -124,6 +135,9 @@ def reverse_complement(sequence: str) -> str:
 zapisuje ją jako odrębny rekord w pliku FASTA.
 '''
 def transcribe_dna(sequence: str) -> str:
+    """
+        Zwraca sekwencje z T zamienionym na U
+    """
     return sequence.replace("T", "U")
 
 '''
@@ -132,6 +146,9 @@ wypisuje wszystkie pozycje wystąpień (indeksowanie od 1, zgodnie z konwencją 
 
 '''
 def find_motif(sequence: str, motif: str) -> list:
+    """
+        Zwraca pozycje na ktorych znajduje sie szukany przez uzytkownika motyw
+    """
     positions = []
 
     for i in range(len(sequence) - len(motif) + 1):
@@ -146,6 +163,9 @@ procentowy udział każdego nukleotydu.
 Program waliduje, czy suma wynosi 100%.
 '''
 def get_nucleotide_distribution() -> dict:
+    """
+        Odbiera od uzytkownika wagi i sprawdza czy ich suam wynosi 100%
+    """
     while True:
         try:
             a = float(input("Podaj procent A: "))
